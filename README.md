@@ -1,9 +1,31 @@
-# Development-of-Strip-Cutting-Machine-Using-Reverse-Engineering-For-BioMedical-Purpose.
-In times of COVID-19, when the world was facing pandemic me any my colleagues redesigned Strip Cutting Machine which is efficient in use, light in weight, cheaper in production(respect to older version), cost effective. We visited the production house in Pune where Covid-Rapid-Antigen Test Kits were manufactured. Our team was assigned a project by our guide to develop a machine for cutting the strips which are placed in Test Kits.
+# Development-of-Strip-Cutting-Machine-Using-Reverse-Engineering-For-BioMedical-Purpose. 
+# Arduino Code For Controlling Stepper Motor 
+// C++ code
+//
+#include <Stepper.h>
 
-The project is based on simple cutting mechanism where, a long sheet is being cut into thin strips, which will later be used for biomedical application.
-The challenge was to make the machine more efficient and create minimum waste.
+const int stepsPerRevolution = 5;  // change this to fit the number of steps per revolution
+// for your motor
 
-The existing machine was bulky, expensive, and time required to design and fabricate is more.
-By reading and learning about reverse engineering and we looked forward to create solutions by making it an efficient and durable machine and cost effective.
-As we know bio-medical engineering field ranges from biological equipment to micro implant machines. We as a team had future goal of creating industrial slicing machine which has its major role in this respective field.
+
+// initialize the stepper library on pins 8 through 11:
+Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
+
+int stepCount = 0;  // number of steps the motor has taken
+
+void setup() {
+  // nothing to do inside the setup
+}
+
+void loop() {
+  // read the sensor value:
+  int sensorReading = analogRead(A0);
+  // map it to a range from 0 to 100:
+  int motorSpeed = map(sensorReading, 0, 1023, 0, 100);
+  // set the motor speed:
+  if (motorSpeed > 0) {
+    myStepper.setSpeed(motorSpeed);
+    // step 1/100 of a revolution:
+    myStepper.step(stepsPerRevolution / 100);
+  }
+}
